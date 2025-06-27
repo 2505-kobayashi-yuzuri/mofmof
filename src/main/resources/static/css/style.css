@@ -1,0 +1,52 @@
+.errorMessages {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	color: red;
+}
+
+.header-contents {
+	margin-left: 20px;
+}
+
+.main-contents {
+	margin: 20px;
+	padding: 10px 10px 5px 10px;
+	background-color: #B4CCCC;
+	height: 100%;
+	width: 80%;
+}
+
+body {
+	background-color: #E0FFFF;
+}
+
+.footer-contents {
+	margin-left: 20px;
+}
+
+.new-button{
+    display:inline-block;
+    }
+
+.delete-button{
+    display:inline-block;
+}
+
+.edit-button{
+    display:inline-block;
+}
+
+.copyright {
+	width: 250px;
+	margin: 0 auto;
+}
+
+label {
+	display: block;
+}
+
+button {
+	margin-bottom: 5px;
+}

@@ -18,7 +18,7 @@ public class TaskService {
     /*
      * レコード全件取得処理
      */
-    public List<TasksForm> findAllTasks(String start, String end) throws ParseException {
+    public List<TasksForm> findAllTasks(String start, String end, Short status, String text) throws ParseException {
         String setStart = null;
         String setEnd = null;
         SimpleDateFormat simpleDefault = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -38,7 +38,16 @@ public class TaskService {
         Date startDate = simpleDefault.parse(setStart);
         Date endDate = simpleDefault.parse(setEnd);
         //作成日時を絞り込みかつ、更新日時での降順に設定
-        List<Tasks> results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAcs(startDate, endDate);
+        List<Tasks> results = new ArrayList<>();
+        if(status != null && text != null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndStatusAndTextOrderByLimitDateAcs(startDate, endDate, status, text);
+        } else if(status != null && text == null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndStatusOrderByLimitDateAcs(startDate, endDate, status);
+        } else if(status == null && text != null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndTextOrderByLimitDateAcs(startDate, endDate, text);
+        } else {
+            results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAcs(startDate, endDate);
+        }
         List<TasksForm> tasks = setTasksForm(results);
         return tasks;
     }
@@ -74,11 +83,11 @@ public class TaskService {
     }
 
     //Form→entityに詰め変えるメソッド
-    private Tasks setTasksEntity(TasksForm reqReport) {
+    private Tasks setTasksEntity(TasksForm reqTask) {
         Tasks task = new Tasks();
-        task.setId(reqReport.getId());
-        task.setId(reqReport.getStatus());
-        task.setUpdatedDate(new Date());
+        task.setId(reqTask.getId());
+        task.setId(reqTask.getStatus());
+        task.setLimitDate(reqTask.getLimitDate());
         return task;
     }
 }

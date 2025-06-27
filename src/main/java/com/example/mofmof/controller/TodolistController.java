@@ -2,11 +2,14 @@ package com.example.mofmof.controller;
 
 import com.example.mofmof.controller.form.TasksForm;
 import com.example.mofmof.service.TaskService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TodolistController {
@@ -16,13 +19,19 @@ public class TodolistController {
      * タスク内容表示処理
      */
     @GetMapping
-    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end) throws ParseException {
+    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
+                            @ModelAttribute("status") Short status, @ModelAttribute("text") String text ) throws ParseException {
         ModelAndView mav = new ModelAndView();
-        // 投稿を全件取得
-        List<TasksForm> TasksData = TaskService.findAllTasks(start, end);
-        //返信の全件取得
+        // 日付の取得
+        Date date = new Date();
+        SimpleDateFormat simpleDefault = new SimpleDateFormat("yyyy-MM-dd");
+        String today = simpleDefault.format(date);
+        // タスクを全件取得
+        List<TasksForm> TasksData = TaskService.findAllTasks(start, end, status, text);
         TasksForm tasksForm = new TasksForm();
         mav.addObject("TasksModel",tasksForm);
+        //本日の日付の表示
+        mav.addObject("Today", today);
         // 画面遷移先を指定
         mav.setViewName("/top");
         // タスクデータオブジェクトを保管
