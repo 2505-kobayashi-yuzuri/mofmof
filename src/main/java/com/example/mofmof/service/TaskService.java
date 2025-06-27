@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TaskService {
     @Autowired
-    TaskRepository taskRepository;
+    TaskRepository TaskRepository;
     /*
      * レコード全件取得処理
      */
@@ -64,13 +64,13 @@ public class TaskService {
     }
     //タスク削除
     public void deleteTask(int id) {
-        taskRepository.deleteById(id);
+        TaskRepository.deleteById(id);
     }
 
     //ステータス変更 タスクID,ステータスIDをentityに詰めて更新
     public void saveLimit(TasksForm tasksform) {
         Tasks saveLimit = setTasksEntity(tasksform);
-        taskRepository.save(saveLimit);
+        TaskRepository.save(saveLimit);
     }
 
     //Form→entityに詰め変えるメソッド

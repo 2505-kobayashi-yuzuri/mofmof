@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TodolistController {
     @Autowired
-    TaskService taskService;
+    TaskService TaskService;
     /*
      * タスク内容表示処理
      */
@@ -32,7 +32,7 @@ public class TodolistController {
     //タスク削除機能  タスクIDを取得しDelete
     @DeleteMapping("/delete/{id}")
     public ModelAndView deleteContent(@PathVariable Integer id) {
-        taskService.deleteTask(id);
+        TaskService.deleteTask(id);
         // Top画面へリダイレクト
         return new ModelAndView("redirect:/");
     }
@@ -40,10 +40,10 @@ public class TodolistController {
     //ステータス変更　 タスクID,ステータスIDを取得しUpdate
     @PutMapping("/update/{id}")
     public ModelAndView updateLimit (@PathVariable Integer id,@ModelAttribute("formModel") TasksForm tasks){
-        return new ModelAndView("redirect:/");
         // UrlParameterのidを更新するentityにセット
         tasks.setId(id);
         // 編集した投稿を更新
-        taskService.saveLimit(tasks);
+        TaskService.saveLimit(tasks);
+        return new ModelAndView("redirect:/");
     }
 }
