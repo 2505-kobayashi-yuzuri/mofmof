@@ -1,11 +1,10 @@
 package com.example.mofmof.service;
 
 import com.example.mofmof.controller.form.TasksForm;
-import com.example.mofmof.repository.TasksRepository;
+import com.example.mofmof.repository.TaskRepository;
 import com.example.mofmof.repository.entity.Tasks;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,11 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
-public class TasksService {
+public class TaskService {
     @Autowired
-    TasksRepository TasksRepository;
-
+    TaskRepository taskRepository;
     /*
      * レコード全件取得処理
      */
@@ -41,7 +38,7 @@ public class TasksService {
         Date startDate = simpleDefault.parse(setStart);
         Date endDate = simpleDefault.parse(setEnd);
         //作成日時を絞り込みかつ、更新日時での降順に設定
-        List<Tasks> results = TasksRepository.findAllByLimitDateBetweenOrderByLimitDateAcs(startDate, endDate);
+        List<Tasks> results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAcs(startDate, endDate);
         List<TasksForm> tasks = setTasksForm(results);
         return tasks;
     }
@@ -64,5 +61,24 @@ public class TasksService {
             tasks.add(task);
         }
         return tasks;
+    }
+    //タスク削除
+    public void deleteTask(int id) {
+        taskRepository.deleteById(id);
+    }
+
+    //ステータス変更 タスクID,ステータスIDをentityに詰めて更新
+    public void saveLimit(TasksForm tasksform) {
+        Tasks saveLimit = setTasksEntity(tasksform);
+        taskRepository.save(saveLimit);
+    }
+
+    //Form→entityに詰め変えるメソッド
+    private Tasks setTasksEntity(TasksForm reqReport) {
+        Tasks task = new Tasks();
+        task.setId(reqReport.getId());
+        task.setId(reqReport.getStatus());
+        task.setUpdatedDate(new Date());
+        return task;
     }
 }
