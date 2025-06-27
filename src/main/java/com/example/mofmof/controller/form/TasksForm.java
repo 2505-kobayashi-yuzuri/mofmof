@@ -14,7 +14,7 @@ public class TasksForm {
     private String text;
 //    @NotBlank(message ="コメントを入力してください")
     private short status;
-    private Date limit_date;
+    private Date limitDate;
     private Date createdDate;
     private Date updatedDate;
 }
