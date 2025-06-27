@@ -3,7 +3,6 @@ package com.example.mofmof.controller;
 import com.example.mofmof.controller.form.TasksForm;
 import com.example.mofmof.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +18,7 @@ public class TodolistController {
     @GetMapping
     public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end) throws ParseException {
         ModelAndView mav = new ModelAndView();
-        // タスクを全件取得
+        // 投稿を全件取得
         List<TasksForm> TasksData = TaskService.findAllTasks(start, end);
         //返信の全件取得
         TasksForm tasksForm = new TasksForm();
@@ -41,11 +40,10 @@ public class TodolistController {
     //ステータス変更　 タスクID,ステータスIDを取得しUpdate
     @PutMapping("/update/{id}")
     public ModelAndView updateLimit (@PathVariable Integer id,@ModelAttribute("formModel") TasksForm tasks){
-        return new ModelAndView("redirect:/");
         // UrlParameterのidを更新するentityにセット
         tasks.setId(id);
         // 編集した投稿を更新
         TaskService.saveLimit(tasks);
-
+        return new ModelAndView("redirect:/");
     }
 }
