@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <!--jQuery(仮)-->
+    <script th:href="@{/webjars/jquery/3.7.1/js/jquery.min.js}"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <title>TOP</title>
 </head>
 <body>
+    <div class="header-contents">
+        <h1>TODO</h1>
+    </div>
+    <div class="main-contents">
+        <!--エラーメッセージ表示-->
+        <div class="errorMessages" th:each="message : ${message}" th:text="${message}"></div>
+        <!--本日の日付-->
+        本日の日付：<span th:text="${today}"></span>
+        <!--新規タスクボタン-->
+        <a href="/new">
+            <button class="new-button" type="button">新規タスク</button>
+        </a>
+        <!--絞込-->
+        <form th:action="@{/}" method="get">
+            期限： <input name="start" type="date" th:value="${start}">～<input name="end" type="date" th:value="${end}">
+            ステータス：
+            タスク内容：<input type = "text" name ="word" value = "${searchWord}"/>
+            <input type="submit" value="絞込">
+        </form>
+        <!--タスク一覧-->
+        タスク内容　ステータス　タスク期限
+        <div class="task-icon" th:each="task : ${tasks}">
+            <span th:text="${task.text}"/>
+            <span th:text="${task.status}"/>
 
+            <span th:text="${task.limitDate}"/>
+            <!--編集・削除-->
+            <a th:href="@{/edit/{id}(id=${content.id})}">
+                <input type="button" value="編集">
+            </a>
+            <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                <input type="submit" value="削除">
+            </form>
+
+        </div>
+
+    </div>
 </body>
 </html>
