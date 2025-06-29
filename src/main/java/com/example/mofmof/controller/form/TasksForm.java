@@ -1,17 +1,20 @@
 package com.example.mofmof.controller.form;
 
+import com.example.mofmof.repository.TaskRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 @Getter
 @Setter
 public class TasksForm {
+    @Autowired
+    TaskRepository TaskRepository;
 
     private int id;
     @NotBlank(message ="タスクを入力してください")
