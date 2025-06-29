@@ -16,7 +16,7 @@ public class TasksForm {
     private int id;
     @NotBlank(message ="タスクを入力してください")
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
-    private String text;
+    private String content;
     private int status;
     @NotBlank(message = "期限を設定してください")
     @Past(message = "無効な日付です")

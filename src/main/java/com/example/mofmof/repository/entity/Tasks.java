@@ -21,7 +21,7 @@ public class Tasks {
     private String content;
 
     @Column
-    private int status;
+    private short status;
 
     @Column(name = "limit_date")
     private Date limitDate;

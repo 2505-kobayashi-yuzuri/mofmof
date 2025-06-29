@@ -5,6 +5,7 @@ import com.example.mofmof.repository.TaskRepository;
 import com.example.mofmof.repository.entity.Tasks;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,13 +13,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class TaskService {
     @Autowired
     TaskRepository TaskRepository;
     /*
      * レコード全件取得処理
      */
-    public List<TasksForm> findAllTasks(String start, String end, Short status, String text) throws ParseException {
+    public List<TasksForm> findAllTasks(String start, String end, Short status, String content) throws ParseException {
         String setStart = null;
         String setEnd = null;
         SimpleDateFormat simpleDefault = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -39,14 +41,14 @@ public class TaskService {
         Date endDate = simpleDefault.parse(setEnd);
         //作成日時を絞り込みかつ、更新日時での降順に設定
         List<Tasks> results = new ArrayList<>();
-        if(status != null && text != null) {
-            results = TaskRepository.findAllByLimitDateBetweenAndStatusAndTextOrderByLimitDateAcs(startDate, endDate, status, text);
-        } else if(status != null && text == null) {
-            results = TaskRepository.findAllByLimitDateBetweenAndStatusOrderByLimitDateAcs(startDate, endDate, status);
-        } else if(status == null && text != null) {
-            results = TaskRepository.findAllByLimitDateBetweenAndTextOrderByLimitDateAcs(startDate, endDate, text);
+        if(status != null && content != null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(startDate, endDate, status, content);
+        } else if(status != null && content == null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(startDate, endDate, status);
+        } else if(status == null && content != null) {
+            results = TaskRepository.findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(startDate, endDate, content);
         } else {
-            results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAcs(startDate, endDate);
+            results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAsc(startDate, endDate);
         }
         List<TasksForm> tasks = setTasksForm(results);
         return tasks;
@@ -62,7 +64,7 @@ public class TaskService {
             TasksForm task = new TasksForm();
             Tasks result = results.get(i);
             task.setId(result.getId());
-            task.setText(result.getContent());
+            task.setContent(result.getContent());
             task.setStatus(result.getStatus());
             task.setLimitDate(result.getLimitDate());
             task.setCreatedDate(result.getCreatedDate());
@@ -86,7 +88,7 @@ public class TaskService {
     private Tasks setTasksEntity(TasksForm reqTask) {
         Tasks task = new Tasks();
         task.setId(reqTask.getId());
-        task.setId(reqTask.getStatus());
+        task.setStatus((short) reqTask.getStatus());
         task.setLimitDate(reqTask.getLimitDate());
         return task;
     }

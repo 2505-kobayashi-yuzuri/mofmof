@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <!--jQuery(仮)-->
-    <script th:href="@{/webjars/jquery/3.7.1/js/jquery.min.js}"></script>
+
+
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <title>TOP</title>
@@ -30,12 +30,12 @@
         <!--タスク一覧-->
         タスク内容　ステータス　タスク期限
         <div class="task-icon" th:each="task : ${tasks}">
-            <span th:text="${task.text}"/>
+            <span th:text="${task.content}"/>
             <span th:text="${task.status}"/>
 
             <span th:text="${task.limitDate}"/>
             <!--編集・削除-->
-            <a th:href="@{/edit/{id}(id=${content.id})}">
+            <a th:href="@{/edit/{id}(id=${task.id})}">
                 <input type="button" value="編集">
             </a>
             <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
@@ -45,5 +45,9 @@
         </div>
 
     </div>
+
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/main.js"></script>
 </body>
 </html>
