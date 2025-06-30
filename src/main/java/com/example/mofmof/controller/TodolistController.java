@@ -93,7 +93,6 @@ public class TodolistController {
         ModelAndView mav = new ModelAndView();
         if (result.hasErrors()) {
             mav.setViewName("/new");
-            mav.addObject("tasksForm", tasksForm);
             return mav;
         }
         // 投稿をテーブルに格納

@@ -1,10 +1,7 @@
 package com.example.mofmof.controller.form;
 
 import com.example.mofmof.repository.TaskRepository;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,7 @@ public class TasksForm {
     private String content;
     private Short status;
     @NotNull(message = "期限を設定してください")
-    @Past(message = "無効な日付です")
+    @Future(message = "無効な日付です")
     private Date limitDate;
     private Date createdDate;
     private Date updatedDate;
