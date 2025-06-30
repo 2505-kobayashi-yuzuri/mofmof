@@ -35,8 +35,8 @@ public class TodolistController {
         String today = simpleDefault.format(date);
         // タスクを全件取得
         List<TasksForm> TasksData = TaskService.findAllTasks(start, end, status, content);
-//        TasksForm tasksForm = new TasksForm();
-//        mav.addObject("TasksModel",tasksForm);
+//       TasksForm tasksForm = new TasksForm();
+//       mav.addObject("TasksModel",tasksForm);
         //本日の日付の表示
         mav.addObject("Today", today);
         mav.addObject("MapStatus", MapStatus());
@@ -65,7 +65,7 @@ public class TodolistController {
     }
 
     //ステータス変更　 タスクID,ステータスIDを取得しUpdate
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateStatus/{id}")
     public ModelAndView updateStatus (@PathVariable Integer id, @RequestParam(name = "status", required = false) Short status){
         // 編集した投稿を更新
         TaskService.updateStatus(id, status);
@@ -81,7 +81,7 @@ public class TodolistController {
         //idに結びついている投稿内容を取得
         TasksForm tasksForm= TaskService.editTask(id);
         //取得した投稿内容を加え
-        mav.addObject("taskModel", tasksForm);
+        mav.addObject("formModel", tasksForm);
         //画面遷移とともに投稿内容を送る
         mav.setViewName("/edit");
         return mav;
@@ -102,7 +102,7 @@ public class TodolistController {
      */
     @PutMapping("/update/{id}")
     public ModelAndView updateContent (@PathVariable Integer id,
-                                       @ModelAttribute("taskModel") @Validated TasksForm task, BindingResult result) {
+                                       @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result) {
         if(result.hasErrors()) {
             return new ModelAndView("/edit");
 
@@ -111,7 +111,7 @@ public class TodolistController {
         task.setId(id);
         // 編集した投稿を更新
         TaskService.saveTask(task);
-        // rootへリダイレクト
+//         rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
 }

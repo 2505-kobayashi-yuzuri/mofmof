@@ -30,10 +30,9 @@
             <input type="submit" value="絞込">
         </form>
         <!--タスク一覧-->
-        タスク内容　ステータス　タスク期限
         <div class="task-icon" th:each="task : ${tasks}">
-            <span th:text="${task.content}"/>
-            <label>
+            タスク内容:<span th:text="${task.content}"/>
+            <label>ステータス
                 <select class ="status" name ="status">
                     <option th:each="map : ${MapStatus}"
                             th:value="${item.key}"
@@ -43,7 +42,7 @@
                 </select>
             </label>
 
-            <span th:text="${task.limitDate}"/>
+            タスク期限<span th:text="${task.limitDate}"/>
             <!--編集・削除-->
             <a th:href="@{/edit/{id}(id=${task.id})}">
                 <input type="button" value="編集">

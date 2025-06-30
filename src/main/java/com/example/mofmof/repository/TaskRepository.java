@@ -4,6 +4,8 @@ import com.example.mofmof.repository.entity.Tasks;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ public interface TaskRepository extends JpaRepository<Tasks, Integer> {
     List<Tasks> findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(Date startDate, Date endDate, Short Status);
     List<Tasks> findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(Date startDate, Date endDate, String content);
     List<Tasks> findAllByLimitDateBetweenOrderByLimitDateAsc(Date startDate, Date endDate);
-
-    void updateStatusById(Integer id, Short status);
+    @Modifying
+    @Query(value = "UPDATE tasks SET status = :status, updated_date = CURRENT_TIMESTAMP WHERE id = :id", nativeQuery = true)
+   void updateStatusById(@Param("id") Integer id, @Param("status") Short status);
 }

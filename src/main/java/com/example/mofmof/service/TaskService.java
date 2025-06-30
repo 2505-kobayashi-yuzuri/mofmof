@@ -79,8 +79,8 @@ public class TaskService {
 
     //ステータス変更 タスクID,ステータスIDをentityに詰めて更新
     public void saveTask(TasksForm tasksform) {
-        Tasks saveLimit = setTasksEntity(tasksform);
-        TaskRepository.save(saveLimit);
+        Tasks saveTask = setTasksEntity(tasksform);
+        TaskRepository.save(saveTask);
     }
 
     //Form→entityに詰め変えるメソッド
