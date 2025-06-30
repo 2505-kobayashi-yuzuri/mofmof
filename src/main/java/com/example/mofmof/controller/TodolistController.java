@@ -3,6 +3,7 @@ package com.example.mofmof.controller;
 import com.example.mofmof.controller.form.TasksForm;
 import com.example.mofmof.service.TaskService;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -101,7 +102,7 @@ public class TodolistController {
      *　編集したタスクを受け取るメソッド
      */
     @PutMapping("/update/{id}")
-    public ModelAndView updateContent (@PathVariable Integer id,
+    public ModelAndView saveTask (@PathVariable Integer id,
                                        @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result) {
         if(result.hasErrors()) {
             return new ModelAndView("/edit");
