@@ -15,7 +15,7 @@
         <!--エラーメッセージ表示-->
         <div class="errorMessages" th:each="message : ${message}" th:text="${message}"></div>
         <!--本日の日付-->
-        本日の日付：<span th:text="${today}"></span>
+        本日の日付：<span th:text="${Today}"></span><br>
         <!--新規タスクボタン-->
         <a href="/new">
             <button class="new-button" type="button">新規タスク</button>

@@ -3,8 +3,10 @@ package com.example.mofmof.controller;
 import com.example.mofmof.controller.form.TasksForm;
 import com.example.mofmof.service.TaskService;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -69,6 +71,33 @@ public class TodolistController {
         tasks.setId(id);
         // 編集した投稿を更新
         TaskService.saveLimit(tasks);
+        return new ModelAndView("redirect:/");
+    }
+
+    //新規タスク画面表示
+    @GetMapping("/new")
+    public ModelAndView newTask() {
+        ModelAndView mav = new ModelAndView();
+        // form用の空のentityを準備
+        TasksForm tasksForm = new TasksForm();
+        // 画面遷移先を指定
+        mav.setViewName("/new");
+        // 準備した空のFormを保管
+        mav.addObject("formModel", tasksForm);
+        return mav;
+    }
+    //新規タスク追加処理
+    @PostMapping("/add")
+    public ModelAndView addTask(@ModelAttribute("formModel") @Valid TasksForm tasksForm, BindingResult result){
+        //未入力の場合エラーメッセジをセット
+        ModelAndView mav = new ModelAndView();
+        if (result.hasErrors()) {
+            mav.setViewName("/new");
+            mav.addObject("tasksForm", tasksForm);
+            return mav;
+        }
+        // 投稿をテーブルに格納
+        TaskService.saveLimit(tasksForm);
         return new ModelAndView("redirect:/");
     }
 }
