@@ -5,6 +5,7 @@ import com.example.mofmof.repository.TaskRepository;
 import com.example.mofmof.repository.entity.Tasks;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -77,7 +78,7 @@ public class TaskService {
     }
 
     //ステータス変更 タスクID,ステータスIDをentityに詰めて更新
-    public void saveLimit(TasksForm tasksform) {
+    public void saveTask(TasksForm tasksform) {
         Tasks saveLimit = setTasksEntity(tasksform);
         TaskRepository.save(saveLimit);
     }
@@ -90,5 +91,16 @@ public class TaskService {
         task.setStatus(reqTask.getStatus());
         task.setLimitDate(reqTask.getLimitDate());
         return task;
+    }
+
+    public TasksForm editTask(Integer id) {
+        List<Tasks> results = new ArrayList<>();
+        results.add((Tasks) TaskRepository.findById(id).orElse(null));
+        List<TasksForm> reports = setTasksForm(results);
+        return reports.get(0);
+    }
+
+    public void updateStatus(Integer id, Short status) {
+        TaskRepository.updateStatusById(id, status);
     }
 }

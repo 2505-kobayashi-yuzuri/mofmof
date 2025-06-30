@@ -17,4 +17,6 @@ public interface TaskRepository extends JpaRepository<Tasks, Integer> {
     List<Tasks> findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(Date startDate, Date endDate, Short Status);
     List<Tasks> findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(Date startDate, Date endDate, String content);
     List<Tasks> findAllByLimitDateBetweenOrderByLimitDateAsc(Date startDate, Date endDate);
+
+    void updateStatusById(Integer id, Short status);
 }

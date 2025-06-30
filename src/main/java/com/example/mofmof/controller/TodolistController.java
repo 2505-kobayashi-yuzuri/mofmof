@@ -5,6 +5,8 @@ import com.example.mofmof.service.TaskService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +25,7 @@ public class TodolistController {
      * タスク内容表示処理
      */
     @GetMapping
-    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
+    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end") String end,
                             @RequestParam(name = "status", required = false) Short status, @RequestParam(name = "content", required = false) String content ) throws ParseException {
         //requestmappingに変更
         ModelAndView mav = new ModelAndView();
@@ -33,8 +35,8 @@ public class TodolistController {
         String today = simpleDefault.format(date);
         // タスクを全件取得
         List<TasksForm> TasksData = TaskService.findAllTasks(start, end, status, content);
-        TasksForm tasksForm = new TasksForm();
-        mav.addObject("TasksModel",tasksForm);
+//        TasksForm tasksForm = new TasksForm();
+//        mav.addObject("TasksModel",tasksForm);
         //本日の日付の表示
         mav.addObject("Today", today);
         mav.addObject("MapStatus", MapStatus());
@@ -64,11 +66,41 @@ public class TodolistController {
 
     //ステータス変更　 タスクID,ステータスIDを取得しUpdate
     @PutMapping("/update/{id}")
-    public ModelAndView updateLimit (@PathVariable Integer id,@ModelAttribute("formModel") TasksForm tasks){
-        // UrlParameterのidを更新するentityにセット
-        tasks.setId(id);
+    public ModelAndView updateStatus (@PathVariable Integer id, @RequestParam(name = "status", required = false) Short status){
         // 編集した投稿を更新
-        TaskService.saveLimit(tasks);
+        TaskService.updateStatus(id, status);
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+     * タスク編集画面に遷移するメソッド
+     */
+    @GetMapping("/edit/{id}")
+    public ModelAndView editContent(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView();
+        //idに結びついている投稿内容を取得
+        TasksForm tasksForm= TaskService.editTask(id);
+        //取得した投稿内容を加え
+        mav.addObject("taskModel", tasksForm);
+        //画面遷移とともに投稿内容を送る
+        mav.setViewName("/edit");
+        return mav;
+    }
+
+    /*
+     *　編集したタスクを受け取るメソッド
+     */
+    @PutMapping("/update/{id}")
+    public ModelAndView updateContent (@PathVariable Integer id,
+                                       @ModelAttribute("taskModel") @Validated TasksForm task, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ModelAndView("/edit");
+        }
+        // UrlParameterのidを更新するentityにセット
+        task.setId(id);
+        // 編集した投稿を更新
+        TaskService.saveTask(task);
+        // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
 }
