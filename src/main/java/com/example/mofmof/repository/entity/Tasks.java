@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "report")
+@Table(name = "tasks")
 @Getter
 @Setter
 
@@ -21,7 +21,7 @@ public class Tasks {
     private String content;
 
     @Column
-    private Integer status;
+    private int status;
 
     @Column(name = "limit_date")
     private Date limitDate;

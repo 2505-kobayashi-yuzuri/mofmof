@@ -65,7 +65,7 @@ public class TaskService {
             Tasks result = results.get(i);
             task.setId(result.getId());
             task.setContent(result.getContent());
-            task.setStatus(result.getStatus());
+            task.setStatus((int)result.getStatus());
             task.setLimitDate(result.getLimitDate());
             task.setCreatedDate(result.getCreatedDate());
             task.setUpdatedDate(result.getUpdatedDate());
@@ -88,7 +88,7 @@ public class TaskService {
     private Tasks setTasksEntity(TasksForm reqTask) {
         Tasks task = new Tasks();
         task.setId(reqTask.getId());
-        task.setStatus((short) reqTask.getStatus());
+        task.setStatus(reqTask.getStatus());
         task.setLimitDate(reqTask.getLimitDate());
         return task;
     }

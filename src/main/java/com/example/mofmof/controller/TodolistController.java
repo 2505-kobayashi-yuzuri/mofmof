@@ -23,8 +23,8 @@ public class TodolistController {
      * タスク内容表示処理
      */
     @GetMapping
-    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
-                            @ModelAttribute("status") Integer status, @ModelAttribute("content") String content ) throws ParseException {
+    public ModelAndView top(@RequestParam(name="start", required=false) String start, @RequestParam(name="start", required=false) String end,
+                            @RequestParam(name="start", required=false) Short status, @RequestParam(name="start", required=false) String content ) throws ParseException {
         ModelAndView mav = new ModelAndView();
         // 日付の取得
         Date date = new Date();
@@ -70,4 +70,6 @@ public class TodolistController {
         TaskService.saveLimit(tasks);
         return new ModelAndView("redirect:/");
     }
+
+
 }
