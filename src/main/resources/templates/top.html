@@ -15,9 +15,8 @@
         <!--エラーメッセージ表示-->
         <div class="errorMessages" th:each="message : ${message}" th:text="${message}"></div>
         <!--本日の日付-->
-        本日の日付：<span th:text="${Today}"></span>
+        本日の日付：<span th:text="${Today}"></span><br>
         <!--新規タスクボタン-->
-        </br>
         <a href="/new">
             <button class="new-button" type="button">新規タスク</button>
         </a>
@@ -31,9 +30,10 @@
             <input type="submit" value="絞込">
         </form>
         <!--タスク一覧-->
+        タスク内容　ステータス　タスク期限
         <div class="task-icon" th:each="task : ${tasks}">
-           タスク内容 <span th:text="${task.content}"/>
-            <label>ステータス
+            <span th:text="${task.content}"/>
+            <label>
                 <select class ="status" name ="status">
                     <option th:each="map : ${MapStatus}"
                             th:value="${item.key}"
@@ -43,8 +43,7 @@
                 </select>
             </label>
 
-            タスク期限<span th:text="${task.limitDate}"/>
-
+            <span th:text="${task.limitDate}"/>
             <!--編集・削除-->
             <a th:href="@{/edit/{id}(id=${task.id})}">
                 <input type="button" value="編集">

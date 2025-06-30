@@ -2,6 +2,7 @@ package com.example.mofmof.controller.form;
 
 import com.example.mofmof.repository.TaskRepository;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class TasksForm {
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
     private String content;
     private Short status;
-    @NotBlank(message = "期限を設定してください")
+    @NotNull(message = "期限を設定してください")
     @Past(message = "無効な日付です")
     private Date limitDate;
     private Date createdDate;

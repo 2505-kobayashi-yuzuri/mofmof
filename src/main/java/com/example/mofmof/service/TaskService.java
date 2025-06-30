@@ -87,7 +87,6 @@ public class TaskService {
     private Tasks setTasksEntity(TasksForm reqTask) {
         Tasks task = new Tasks();
         task.setId(reqTask.getId());
-        task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
         task.setLimitDate(reqTask.getLimitDate());
         return task;
