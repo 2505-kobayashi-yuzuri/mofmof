@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional
 @Repository
 public interface TaskRepository extends JpaRepository<Tasks, Integer> {
-    List<Tasks> findAllByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(Date startDate, Date endDate, short status, String content);
-    List<Tasks> findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(Date startDate, Date endDate, short status);
+    List<Tasks> findAllByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(Date startDate, Date endDate, Short Status, String content);
+    List<Tasks> findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(Date startDate, Date endDate, Short Status);
     List<Tasks> findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(Date startDate, Date endDate, String content);
     List<Tasks> findAllByLimitDateBetweenOrderByLimitDateAsc(Date startDate, Date endDate);
 }

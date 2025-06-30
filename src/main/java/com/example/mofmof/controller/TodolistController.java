@@ -23,8 +23,9 @@ public class TodolistController {
      * タスク内容表示処理
      */
     @GetMapping
-    public ModelAndView top(@RequestParam(name="start", required=false) String start, @RequestParam(name="start", required=false) String end,
-                            @RequestParam(name="start", required=false) Short status, @RequestParam(name="start", required=false) String content ) throws ParseException {
+    public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
+                            @RequestParam(name = "status", required = false) Short status, @RequestParam(name = "content", required = false) String content ) throws ParseException {
+        //requestmappingに変更
         ModelAndView mav = new ModelAndView();
         // 日付の取得
         Date date = new Date();
@@ -44,12 +45,12 @@ public class TodolistController {
         return mav;
     }
 
-    public Map<Integer, String> MapStatus(){
-        Map<Integer, String> map = new LinkedHashMap<>();
-        map.put(1, "未着手");
-        map.put(2, "実行中");
-        map.put(3, "ステイ中");
-        map.put(4, "完了");
+    public Map<Short, String> MapStatus(){
+        Map<Short, String> map = new LinkedHashMap<>();
+        map.put((short) 1, "未着手");
+        map.put((short) 2, "実行中");
+        map.put((short) 3, "ステイ中");
+        map.put((short) 4, "完了");
         return map;
     }
 
@@ -70,6 +71,4 @@ public class TodolistController {
         TaskService.saveLimit(tasks);
         return new ModelAndView("redirect:/");
     }
-
-
 }

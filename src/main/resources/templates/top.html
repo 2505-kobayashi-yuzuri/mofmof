@@ -23,8 +23,10 @@
         <!--絞込-->
         <form th:action="@{/}" method="get">
             期限： <input name="start" type="date" th:value="${start}">～<input name="end" type="date" th:value="${end}">
-            ステータス：
-            タスク内容：<input type = "text" name ="word" value = "${searchWord}"/>
+            ステータス：<select class ="status" name ="status">
+                        <option th:each="map : ${MapStatus}" th:text="${map.value}" th:value="${map.key}"></option>
+                     </select>
+            タスク内容：<input type = "text" name ="word" th:value = "${content}"/>
             <input type="submit" value="絞込">
         </form>
         <!--タスク一覧-->
@@ -33,7 +35,7 @@
             <span th:text="${task.content}"/>
             <label>
                 <select class ="status" name ="status">
-                    <option th:each="map : ${mapStatus}"
+                    <option th:each="map : ${MapStatus}"
                             th:value="${item.key}"
                             th:text="${item.text}"
                             th:selected="${item.key == task.status}">

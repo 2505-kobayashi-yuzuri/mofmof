@@ -67,8 +67,6 @@ public class TaskService {
             task.setContent(result.getContent());
             task.setStatus((int)result.getStatus());
             task.setLimitDate(result.getLimitDate());
-            task.setCreatedDate(result.getCreatedDate());
-            task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);
         }
         return tasks;
