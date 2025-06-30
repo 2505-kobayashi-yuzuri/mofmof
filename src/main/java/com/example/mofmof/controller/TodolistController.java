@@ -24,7 +24,8 @@ public class TodolistController {
      */
     @GetMapping
     public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
-                            @ModelAttribute("status") Integer status, @ModelAttribute("content") String content ) throws ParseException {
+                            @RequestParam(name = "status", required = false) Short status, @RequestParam(name = "content", required = false) String content ) throws ParseException {
+        //requestmappingに変更
         ModelAndView mav = new ModelAndView();
         // 日付の取得
         Date date = new Date();
@@ -44,12 +45,12 @@ public class TodolistController {
         return mav;
     }
 
-    public Map<Integer, String> MapStatus(){
-        Map<Integer, String> map = new LinkedHashMap<>();
-        map.put(1, "未着手");
-        map.put(2, "実行中");
-        map.put(3, "ステイ中");
-        map.put(4, "完了");
+    public Map<Short, String> MapStatus(){
+        Map<Short, String> map = new LinkedHashMap<>();
+        map.put((short) 1, "未着手");
+        map.put((short) 2, "実行中");
+        map.put((short) 3, "ステイ中");
+        map.put((short) 4, "完了");
         return map;
     }
 

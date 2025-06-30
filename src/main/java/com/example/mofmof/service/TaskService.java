@@ -20,7 +20,7 @@ public class TaskService {
     /*
      * レコード全件取得処理
      */
-    public List<TasksForm> findAllTasks(String start, String end, Integer status, String content) throws ParseException {
+    public List<TasksForm> findAllTasks(String start, String end, Short status, String content) throws ParseException {
         String setStart = null;
         String setEnd = null;
         SimpleDateFormat simpleDefault = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -67,8 +67,6 @@ public class TaskService {
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
             task.setLimitDate(result.getLimitDate());
-            task.setCreatedDate(result.getCreatedDate());
-            task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);
         }
         return tasks;
