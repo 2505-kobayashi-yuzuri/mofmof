@@ -11,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TodolistController {
@@ -22,7 +24,7 @@ public class TodolistController {
      */
     @GetMapping
     public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end")  String end,
-                            @ModelAttribute("status") Short status, @ModelAttribute("content") String content ) throws ParseException {
+                            @ModelAttribute("status") Integer status, @ModelAttribute("content") String content ) throws ParseException {
         ModelAndView mav = new ModelAndView();
         // 日付の取得
         Date date = new Date();
@@ -34,12 +36,23 @@ public class TodolistController {
         mav.addObject("TasksModel",tasksForm);
         //本日の日付の表示
         mav.addObject("Today", today);
+        mav.addObject("MapStatus", MapStatus());
         // 画面遷移先を指定
         mav.setViewName("/top");
         // タスクデータオブジェクトを保管
         mav.addObject("tasks", TasksData);
         return mav;
     }
+
+    public Map<Integer, String> MapStatus(){
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(1, "未着手");
+        map.put(2, "実行中");
+        map.put(3, "ステイ中");
+        map.put(4, "完了");
+        return map;
+    }
+
     //タスク削除機能  タスクIDを取得しDelete
     @DeleteMapping("/delete/{id}")
     public ModelAndView deleteContent(@PathVariable Integer id) {

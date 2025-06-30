@@ -31,7 +31,15 @@
         タスク内容　ステータス　タスク期限
         <div class="task-icon" th:each="task : ${tasks}">
             <span th:text="${task.content}"/>
-            <span th:text="${task.status}"/>
+            <label>
+                <select class ="status" name ="status">
+                    <option th:each="map : ${mapStatus}"
+                            th:value="${item.key}"
+                            th:text="${item.text}"
+                            th:selected="${item.key == task.status}">
+                    </option>
+                </select>
+            </label>
 
             <span th:text="${task.limitDate}"/>
             <!--編集・削除-->
