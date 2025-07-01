@@ -50,3 +50,28 @@ label {
 button {
 	margin-bottom: 5px;
 }
+
+.task-icon {
+	margin-bottom: 5px;
+	padding: 5px;
+	background-color: white;
+}
+
+.form-area {
+	margin: 10px;
+	padding: 10px;
+	background-color: white;
+}
+
+.search-area {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+.tweet-box {
+    margin: 5px 0px;
+	width: 780px;
+	height: 56px;
+}

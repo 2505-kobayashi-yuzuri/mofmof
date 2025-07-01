@@ -11,6 +11,10 @@
 </div>
 <div class="main-contents">
     <form th:action="@{/update/{id}(id=${formModel.id})}" th:object="${formModel}" th:method="put">
+        <!--エラーメッセージ表示-->
+        <li th:each="error : ${#fields.detailedErrors()}"
+            class="errorMessages" th:text="${error.message}"></li>
+
         <div class="form-area">
             <label>投稿内容</label>
             <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>

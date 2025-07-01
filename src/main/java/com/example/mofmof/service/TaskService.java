@@ -7,6 +7,7 @@ import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,8 +33,7 @@ public class TaskService {
         }
 
         if (StringUtils.isBlank(end)) {
-            Date nowDate = new Date();
-            setEnd = simpleDefault.format(nowDate);
+            setEnd = "2100-01-01 00:00:00";
         } else {
             setEnd = end + " 23:59:59";
         }
@@ -88,6 +88,7 @@ public class TaskService {
         Tasks task = new Tasks();
         task.setId(reqTask.getId());
         task.setStatus(reqTask.getStatus());
+        task.setContent(reqTask.getContent());
         task.setLimitDate(reqTask.getLimitDate());
         return task;
     }

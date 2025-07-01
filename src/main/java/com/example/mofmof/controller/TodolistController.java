@@ -25,7 +25,7 @@ public class TodolistController {
     /*
      * タスク内容表示処理
      */
-    @GetMapping
+    @GetMapping("/")
     public ModelAndView top(@ModelAttribute("start") String start, @ModelAttribute("end") String end,
                             @RequestParam(name = "status", required = false) Short status, @RequestParam(name = "content", required = false) String content ) throws ParseException {
         //requestmappingに変更
@@ -73,6 +73,33 @@ public class TodolistController {
         return new ModelAndView("redirect:/");
     }
 
+    //新規タスク画面表示
+    @GetMapping("/new")
+    public ModelAndView newContent() {
+        ModelAndView mav = new ModelAndView();
+        // form用の空のentityを準備
+        TasksForm tasksForm = new TasksForm();
+        // 画面遷移先を指定
+        mav.setViewName("/new");
+        // 準備した空のFormを保管
+        mav.addObject("formModel", tasksForm);
+        return mav;
+    }
+    //新規タスク追加処理
+    @PostMapping("/add")
+    public ModelAndView addTask(@ModelAttribute("formModel") @Valid TasksForm tasksForm, BindingResult result) {
+
+        ModelAndView mav = new ModelAndView();
+        if (result.hasErrors()) {
+            mav.setViewName("/new");
+            return mav;
+        }
+        // 投稿をテーブルに格納
+        TaskService.saveTask(tasksForm);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
     /*
      * タスク編集画面に遷移するメソッド
      */
@@ -87,32 +114,20 @@ public class TodolistController {
         mav.setViewName("/edit");
         return mav;
     }
-
-    //新規タスク追加処理
-    @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel") @Valid TasksForm tasksForm, BindingResult result){
-        //未入力の場合エラーメッセジをセット
-        ModelAndView mav = new ModelAndView();
-        if (result.hasErrors()) {
-            mav.setViewName("/new");
-            return mav;
-
-
     /*
      *　編集したタスクを受け取るメソッド
      */
     @PutMapping("/update/{id}")
     public ModelAndView saveTask (@PathVariable Integer id,
-                                       @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result) {
-        if(result.hasErrors()) {
-            return new ModelAndView("/edit");
-
-        }
-        // UrlParameterのidを更新するentityにセット
-        task.setId(id);
-        // 編集した投稿を更新
-        TaskService.saveTask(task);
+                                       @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result){
+                if (result.hasErrors()) {
+                    return new ModelAndView("/edit");
+                }
+                // UrlParameterのidを更新するentityにセット
+                task.setId(id);
+                // 編集した投稿を更新
+                TaskService.saveTask(task);
 //         rootへリダイレクト
-        return new ModelAndView("redirect:/");
-    }
+                return new ModelAndView("redirect:/");
+            }
 }

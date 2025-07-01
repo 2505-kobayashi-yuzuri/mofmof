@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-
-
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <title>TOP</title>
@@ -21,42 +19,47 @@
             <button class="new-button" type="button">新規タスク</button>
         </a>
         <!--絞込-->
-        <form th:action="@{/}" method="get">
-            期限： <input name="start" type="date" th:value="${start}">～<input name="end" type="date" th:value="${end}">
-            ステータス：<select class ="status" name ="status">
-                        <option th:each="map : ${MapStatus}" th:text="${map.value}" th:value="${map.key}"></option>
-                     </select>
-            タスク内容：<input type = "text" name ="word" th:value = "${content}"/>
-            <input type="submit" value="絞込">
-        </form>
+        <div class="search-area">
+            <form th:action="@{/}" method="get">
+                期限： <input name="start" type="date" th:value="${start}">～<input name="end" type="date" th:value="${end}">
+                ステータス：<select class ="status" name ="status">
+                            <option th:each="map : ${MapStatus}" th:text="${map.value}" th:value="${map.key}"></option>
+                         </select>
+                タスク内容：<input type = "text" name ="word" th:value = "${content}"/>
+                <input type="submit" value="絞込">
+            </form>
+        </div>
         <!--タスク一覧-->
         <div class="task-icon" th:each="task : ${tasks}">
-            タスク内容:<span th:text="${task.content}"/>
-            <label>ステータス
+            タスク内容：<span th:text="${task.content}"/>
+            <form th:action="@{/updateStatus/{id}(id=${task.id})}" th:method="put">
+                ステータス：
                 <select class ="status" name ="status">
                     <option th:each="map : ${MapStatus}"
-                            th:value="${item.key}"
-                            th:text="${item.text}"
-                            th:selected="${item.key == task.status}">
+                            th:value="${map.key}"
+                            th:text="${map.value}"
+                            th:selected="${map.key == task.status}">
                     </option>
                 </select>
-            </label>
-
-            タスク期限<span th:text="${task.limitDate}"/>
-            <!--編集・削除-->
-            <a th:href="@{/edit/{id}(id=${task.id})}">
-                <input type="button" value="編集">
-            </a>
-            <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
-                <input type="submit" value="削除">
+                <input type="submit" value="変更" class="変更">
             </form>
-
+            タスク期限：<span th:text="${task.limitDate}" class="期限日"></span>
+            <!--編集・削除-->
+            <div class="edit-button">
+                <a th:href="@{/edit/{id}(id=${task.id})}">
+                    <input type="button" value="編集">
+                </a>
+            </div>
+            <div class="delete-button">
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                    <input type="submit" value="削除" class="削除">
+                </form>
+            </div>
         </div>
-
     </div>
 
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="/static/js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
