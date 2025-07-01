@@ -36,8 +36,8 @@
             タスク内容：<span th:text="${task.content}"/>
             <form th:action="@{/updateStatus/{id}(id=${task.id})}" th:method="put">
                 ステータス：
-                <select th:if="${map.key != null}" class ="status" name ="status">
-                    <option th:each="map : ${MapStatus}"
+                <select class ="status" name ="status">
+                    <option  th:if="${map.key != null}" th:each="map : ${MapStatus}"
                             th:value="${map.key}"
                             th:text="${map.value}"
                             th:selected="${map.key == task.status}">
@@ -58,7 +58,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 
     <!--jQuery-->

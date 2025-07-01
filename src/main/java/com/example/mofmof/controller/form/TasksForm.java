@@ -23,7 +23,6 @@ public class TasksForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "期限を設定してください")
     @Future(message = "無効な日付です")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date limitDate;
     private Date createdDate;
     private Date updatedDate;
