@@ -43,11 +43,11 @@ public class TaskService {
         //作成日時を絞り込みかつ、更新日時での降順に設定
         List<Tasks> results = new ArrayList<>();
         if(status != null && content != null) {
-            results = TaskRepository.findAllByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(startDate, endDate, status, content);
+            results = TaskRepository.findAllByLimitDateBetweenAndStatusAndContentContainingOrderByLimitDateAsc(startDate, endDate, status, content);
         } else if(status != null && content == null) {
             results = TaskRepository.findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(startDate, endDate, status);
         } else if(status == null && content != null) {
-            results = TaskRepository.findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(startDate, endDate, content);
+            results = TaskRepository.findAllByLimitDateBetweenAndContentContainingOrderByLimitDateAsc(startDate, endDate, content);
         } else {
             results = TaskRepository.findAllByLimitDateBetweenOrderByLimitDateAsc(startDate, endDate);
         }

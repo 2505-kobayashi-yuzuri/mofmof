@@ -15,9 +15,9 @@ import java.util.List;
 @Transactional
 @Repository
 public interface TaskRepository extends JpaRepository<Tasks, Integer> {
-    List<Tasks> findAllByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(Date startDate, Date endDate, Short Status, String content);
+    List<Tasks> findAllByLimitDateBetweenAndStatusAndContentContainingOrderByLimitDateAsc(Date startDate, Date endDate, Short Status, String content);
     List<Tasks> findAllByLimitDateBetweenAndStatusOrderByLimitDateAsc(Date startDate, Date endDate, Short Status);
-    List<Tasks> findAllByLimitDateBetweenAndContentOrderByLimitDateAsc(Date startDate, Date endDate, String content);
+    List<Tasks> findAllByLimitDateBetweenAndContentContainingOrderByLimitDateAsc(Date startDate, Date endDate, String content);
     List<Tasks> findAllByLimitDateBetweenOrderByLimitDateAsc(Date startDate, Date endDate);
     @Modifying
     @Query(value = "UPDATE tasks SET status = :status, updated_date = CURRENT_TIMESTAMP WHERE id = :id", nativeQuery = true)

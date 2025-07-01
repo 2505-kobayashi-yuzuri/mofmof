@@ -27,7 +27,7 @@
                 ステータス：<select class ="status" name ="status">
                             <option th:each="map : ${MapStatus}" th:text="${map.value}" th:value="${map.key}"></option>
                          </select>
-                タスク内容：<input type = "text" name ="word" th:value = "${content}"/>
+                タスク内容：<input  name ="content" type = "text" th:value ="${content}"/>
                 <input type="submit" value="絞込">
             </form>
         </div>
@@ -47,10 +47,10 @@
             </form>
 
             <div class = "limit-date" th:if="${#dates.format(task.limitDate, 'yyyy/MM/dd') <= #dates.format(Date, 'yyyy/MM/dd')}">
-                <span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}" style="background-color:#ff99dd;"></span>
+                タスク期限<span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}" style="background-color:#ff99dd;"></span>
             </div>
             <div class = "limit-date" th:if="${#dates.format(task.limitDate, 'yyyy/MM/dd') > #dates.format(Date, 'yyyy/MM/dd')}">
-                <span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}" style="background-color:#ffee99;"></span>
+                タスク期限<span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}" style="background-color:#ffee99;"></span>
             </div>
             <!--編集・削除-->
             <div class="edit-button">
