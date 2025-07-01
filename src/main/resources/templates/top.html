@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+
+
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <title>TOP</title>
 </head>
 <body>
     <div class="header-contents">
-        <h1>TODO</h1>
+        <h1>TODOリスト</h1>
     </div>
     <div class="main-contents">
         <!--エラーメッセージ表示-->
@@ -34,7 +36,7 @@
             タスク内容：<span th:text="${task.content}"/>
             <form th:action="@{/updateStatus/{id}(id=${task.id})}" th:method="put">
                 ステータス：
-                <select class ="status" name ="status">
+                <select th:if="${map.key != null}" class ="status" name ="status">
                     <option th:each="map : ${MapStatus}"
                             th:value="${map.key}"
                             th:text="${map.value}"
@@ -56,6 +58,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 
     <!--jQuery-->

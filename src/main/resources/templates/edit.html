@@ -17,10 +17,13 @@
 
         <div class="form-area">
             <label>投稿内容</label>
-            <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+            <div class ="errorMessages" >
+                <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                <div th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
+            </div>
             <textarea class="tweet-box"  th:field="*{content}" size="20" maxlength="200" /></textarea><br/>
             <label>タスク期限</label>
-            <input type="datetime-local" th:field="*{limitDate}"><br/>
+            <input type="date" th:field="*{limitDate}" ><br/>
             <input type="hidden" th:field="*{status}">
             <input type="submit" value="更新"/>
         </div>

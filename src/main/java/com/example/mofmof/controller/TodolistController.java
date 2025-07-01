@@ -48,8 +48,9 @@ public class TodolistController {
         return mav;
     }
 
-    public Map<Short, String> MapStatus(){
+    public Map<Short, String> MapStatus() {
         Map<Short, String> map = new LinkedHashMap<>();
+        map.put(null, "全て");
         map.put((short) 1, "未着手");
         map.put((short) 2, "実行中");
         map.put((short) 3, "ステイ中");
@@ -67,7 +68,7 @@ public class TodolistController {
 
     //ステータス変更　 タスクID,ステータスIDを取得しUpdate
     @PutMapping("/updateStatus/{id}")
-    public ModelAndView updateStatus (@PathVariable Integer id, @RequestParam(name = "status", required = false) Short status){
+    public ModelAndView updateStatus (@PathVariable Integer id, @RequestParam(name = "status", required = false) Short status) {
         // 編集した投稿を更新
         TaskService.updateStatus(id, status);
         return new ModelAndView("redirect:/");
@@ -85,26 +86,12 @@ public class TodolistController {
         mav.addObject("formModel", tasksForm);
         return mav;
     }
-    //新規タスク追加処理
-    @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel") @Valid TasksForm tasksForm, BindingResult result) {
-
-        ModelAndView mav = new ModelAndView();
-        if (result.hasErrors()) {
-            mav.setViewName("/new");
-            return mav;
-        }
-        // 投稿をテーブルに格納
-        TaskService.saveTask(tasksForm);
-        // rootへリダイレクト
-        return new ModelAndView("redirect:/");
-    }
 
     /*
      * タスク編集画面に遷移するメソッド
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editContent(@PathVariable Integer id){
+    public ModelAndView editContent(@PathVariable Integer id) {
         ModelAndView mav = new ModelAndView();
         //idに結びついている投稿内容を取得
         TasksForm tasksForm= TaskService.editTask(id);
@@ -114,20 +101,36 @@ public class TodolistController {
         mav.setViewName("/edit");
         return mav;
     }
+
+    //新規タスク追加処理
+    @PostMapping("/add")
+    public ModelAndView addTask(@ModelAttribute("formModel") @Valid TasksForm tasksForm, BindingResult result) {
+        //未入力の場合エラーメッセジをセット
+        ModelAndView mav = new ModelAndView();
+        if (result.hasErrors()) {
+            mav.setViewName("/new");
+            return mav;
+        }
+        TaskService.saveTask(tasksForm);
+        return new ModelAndView("redirect:/");
+    }
+
     /*
      *　編集したタスクを受け取るメソッド
      */
     @PutMapping("/update/{id}")
-    public ModelAndView saveTask (@PathVariable Integer id,
-                                       @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result){
-                if (result.hasErrors()) {
-                    return new ModelAndView("/edit");
-                }
-                // UrlParameterのidを更新するentityにセット
-                task.setId(id);
-                // 編集した投稿を更新
-                TaskService.saveTask(task);
+    public ModelAndView saveTask(@PathVariable Integer id,
+                    @ModelAttribute("formModel") @Validated TasksForm task, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
+        if(result.hasErrors()) {
+            mav.setViewName("/edit");
+            return mav;
+        }
+        // UrlParameterのidを更新するentityにセット
+        task.setId(id);
+        // 編集した投稿を更新
+        TaskService.saveTask(task);
 //         rootへリダイレクト
-                return new ModelAndView("redirect:/");
-            }
+        return new ModelAndView("redirect:/");
+    }
 }

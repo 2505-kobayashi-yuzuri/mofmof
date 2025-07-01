@@ -20,6 +20,7 @@ public class TasksForm {
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
     private String content;
     private Short status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "期限を設定してください")
     @Future(message = "無効な日付です")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

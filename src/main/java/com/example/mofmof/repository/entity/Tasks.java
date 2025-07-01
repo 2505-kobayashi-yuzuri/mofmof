@@ -3,6 +3,7 @@ package com.example.mofmof.repository.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -32,6 +33,7 @@ public class Tasks {
     private Date createdDate;
 
     @Column(name = "updated_date", insertable = false, updatable = true)
+    @UpdateTimestamp
     private Date updatedDate;
 
 }

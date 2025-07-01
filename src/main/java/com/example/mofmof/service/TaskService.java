@@ -60,7 +60,6 @@ public class TaskService {
      */
     private List<TasksForm> setTasksForm(List<Tasks> results) {
         List<TasksForm> tasks = new ArrayList<>();
-
         for (int i = 0; i < results.size(); i++) {
             TasksForm task = new TasksForm();
             Tasks result = results.get(i);
@@ -87,6 +86,7 @@ public class TaskService {
     private Tasks setTasksEntity(TasksForm reqTask) {
         Tasks task = new Tasks();
         task.setId(reqTask.getId());
+        task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
         task.setContent(reqTask.getContent());
         task.setLimitDate(reqTask.getLimitDate());
