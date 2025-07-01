@@ -39,6 +39,7 @@ public class TodolistController {
 //       TasksForm tasksForm = new TasksForm();
 //       mav.addObject("TasksModel",tasksForm);
         //本日の日付の表示
+        mav.addObject("Date", date);
         mav.addObject("Today", today);
         mav.addObject("MapStatus", MapStatus());
         // 画面遷移先を指定
