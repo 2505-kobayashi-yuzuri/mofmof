@@ -16,7 +16,6 @@ public class TasksForm {
     @Autowired
     TaskRepository TaskRepository;
 
-    @Positive(message ="不正なパラメーター")
     private int id;
     @NotBlank(message ="タスクを入力してください")
     @Size(max = 140, message = "タスクは140文字以内で入力してください")
